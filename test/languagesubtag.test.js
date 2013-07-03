@@ -1,16 +1,12 @@
 "use strict";
 
 var expect = require('expect.js')
-, subtag = require('../lib/languagesubtag.js')
+, subtag = require('../lib/languagesubtag')
 ;
 
-describe('LanguageSubTag.selectors ', function () {
+describe('subtag', function () {
 
-	describe('when language is called for `en`', function () {
-		
-		it('returns a single matching result', function () {
-			expect(subtag.selectors.language().exec('en')).to.have.length(2);
-		});
-
+	it('is an object', function () {
+		expect(subtag).to.be.an(Object);
 	});
 });
