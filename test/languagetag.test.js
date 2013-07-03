@@ -1,6 +1,7 @@
 "use strict";
 
 var expect = require('expect.js')
+, dbc = require('dbc.js')
 , langtag = require('../lib/languagetag')
 ;
 
@@ -15,6 +16,14 @@ describe('langtag', function () {
 		it('to be a function', function () {
 			expect(langtag.selectLanguage).to.be.a(Function);
 		});
+
+		describe('when passed ``', function () {
+			it('to throw an exception', function () {
+				expect(langtag.selectLanguage).to.throwException(function (e){
+					expect(e).to.be.a(dbc.ContractError);
+				});
+			});
+		});		
 
 		describe('when passed `en`', function () {
 			var en = langtag.selectLanguage('en');
@@ -180,8 +189,8 @@ describe('langtag', function () {
 			});
 		});
 
-		describe('when passed `zh-Latn-TW-pinyin-panyan`', function () {
-			var zh = langtag.selectVariants('zh-Latn-TW-pinyin-panyan');
+		describe('when passed `zh-Latn-TW-pinyin-panyan-u-extens-x-private`', function () {
+			var zh = langtag.selectVariants('zh-Latn-TW-pinyin-panyan-u-extens-x-private');
 			it('to return a result with 2 values', function () {
 				expect(zh).to.have.length(2);
 			});
@@ -261,6 +270,16 @@ describe('langtag', function () {
 				expect(zh[0]).to.be('u-extens');
 			});
 		});
+
+		describe('when passed `zh-Latn-TW-pinyin-panyan-u-extens-x-private`', function () {
+			var zh = langtag.selectExtensions('zh-Latn-TW-pinyin-panyan-u-extens-x-private');
+			it('to return a array with 1 value', function () {
+				expect(zh).to.have.length(1);
+			});
+			it('to return `u-extens` as the match at index `0`', function () {
+				expect(zh[0]).to.be('u-extens');
+			});
+		});
 	});
 
 	describe('property `selectPrivateUse`', function () {
@@ -312,10 +331,67 @@ describe('langtag', function () {
 		});
 
 		describe('when passed `zh-Latn-TW-pinyin-u-extens-x-private`', function () {
-			var zh = langtag.selectPrivateUse('zh-Latn-TW-pinyin-x-private');
+			var zh = langtag.selectPrivateUse('zh-Latn-TW-pinyin-u-extens-x-private');
 			it('to result in `x-private`', function () {
 				expect(zh).to.be('x-private');
 			});
 		});
+	});
+
+	describe('property `parse`', function () {
+	
+		it('to be a function', function () {
+			expect(langtag.parse).to.be.a(Function);
+		});
+
+		describe('when passed `zh-Latn-TW-pinyin-u-extens-x-private`', function () {
+
+			var tag = langtag.parse('zh-Latn-TW-pinyin-u-extens-x-private');
+
+			it('to return a `LanguageTag`', function () {
+				expect(tag).to.be.a(langtag);
+			});
+
+			it('to have `zh` as it`s language property value', function () {
+				expect(tag.language).to.eql('zh');
+			});
+
+			it('to have `Latn` as it`s script value', function () {
+				expect(tag.script).to.eql('Latn');
+			});
+
+			it('to have `TW` as it`s region value', function () {
+				expect(tag.region).to.eql('TW');
+			});
+
+			it('to have `pinyin` as it`s variants value', function () {
+				expect(tag.variants).to.have.length(1);
+				expect(tag.variants[0]).to.eql('pinyin');
+			});
+
+			it('toString() match original value', function () {
+				expect(tag.toString()).to.eql('zh-Latn-TW-pinyin-u-extens-x-private');
+			});
+			
+		});
+
+		describe('when passed ``', function () {
+			it('to throw a `ContractError` exception', function () {
+				expect(langtag.parse).to.throwException(function (e) {
+					expect(e).to.be.a(dbc.ContractError);
+					expect(e.message).to.eql('a language tag string is required');
+				});
+			})
+		});
+
+		//// expects `withArgs` seems to be missing or broken...
+		// describe('when passed `some-random-data`', function () {
+		// 	it('to throw a `ContractError` exception', function () {
+		// 		expect(langtag.parse).withArgs('some-random-data').to.throwException(function (e) {
+		// 			expect(e).to.be.a(dbc.ContractError);
+		// 			expect(e.message).to.eql('a language value is required');
+		// 		});
+		// 	})
+		// });
 	});
 });
