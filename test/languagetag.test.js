@@ -5,7 +5,7 @@ var expect = require('expect.js')
 , langtag = require('../lib/languagetag')
 ;
 
-describe('langtag', function () {
+describe('LanguageTag', function () {
 
 	it('is an object', function () {
 		expect(langtag).to.be.an(Object);
