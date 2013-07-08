@@ -179,4 +179,18 @@ describe('LanguageSubTag', function () {
 		});
 	});
 	
+	describe('Constructor', function () {
+		var testData = { 
+			kind: 'language'
+			, subtag: 'gd'
+			, description: 'Scottish Gaelic; Gaelic'
+			, added: '2005-10-16' 
+		}
+		;
+
+		it('succeeds with test data', function () {
+			expect(new subtag(testData)).to.be.ok();
+		});
+	});
+
 });
