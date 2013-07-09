@@ -187,9 +187,9 @@ describe('LanguageSubTag', function () {
 			, added: '2005-10-16' 
 		}
 		;
-
+		var testSubTag
 		it('succeeds with test data', function () {
-			expect(new subtag(testData)).to.be.ok();
+			expect(new subtag(testData)).to.be.a(subtag);
 		});
 	});
 
