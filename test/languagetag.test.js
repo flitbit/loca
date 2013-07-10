@@ -394,4 +394,44 @@ describe('LanguageTag', function () {
 		// 	})
 		// });
 	});
+
+	describe('Constructor', function () {
+		
+		describe('when constructed from `ZH-latn-tw-PINYIN-u-exTens`', function () {
+			
+			var tag = new langtag({language: 'ZH', script: 'latn', region: 'tw', variants: ['PINYIN'], extensions: ['u-exTens']});
+			
+			it('language property matches `zh` exactly', function () {
+				expect(tag.language).to.be('zh');
+				expect(tag.language).to.not.be('ZH');
+			});
+
+			it('region property matches `TW` exactly', function () {
+				expect(tag.region).to.not.be('tw');
+				expect(tag.region).to.be('TW');
+			});
+
+			it('script property matches `Latn` exactly', function () {
+				expect(tag.script).to.not.be('latn');
+				expect(tag.script).to.be('Latn');
+			});
+
+			it('variants[0] property matches `pinyin` exactly', function () {
+				expect(tag.variants[0]).to.not.be('PINYIN');
+				expect(tag.variants[0]).to.be('pinyin');
+			});
+
+			it('extensions[0] property matches `u-extens` exactly', function () {
+				expect(tag.extensions[0]).to.not.be('u-exTens');
+				expect(tag.extensions[0]).to.be('u-extens');
+			});
+
+			it('toString() matches `zh-Latn-TW-pinyin-u-extens` exactly', function () {
+				var ts = tag.toString();
+				expect(ts).to.not.be('ZH-latn-tw-PINYIN-u-exTens');
+				expect(ts).to.be('zh-Latn-TW-pinyin-u-extens');
+			});
+
+		})
+	});
 });
