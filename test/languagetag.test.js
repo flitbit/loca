@@ -1,8 +1,8 @@
 "use strict";
 
 var expect = require('expect.js')
-, dbc = require('dbc.js')
 , langtag = require('../lib/languagetag')
+, dbc = require('dbc.js')
 ;
 
 describe('LanguageTag', function () {
